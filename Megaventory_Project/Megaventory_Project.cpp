@@ -28,6 +28,7 @@
 //Additional
 #include "Product.hpp"
 #include "SupplierClient.hpp"
+#include "InventoryLocation.hpp"
 
 typedef std::string APIKEY;
 
@@ -123,26 +124,34 @@ void PostSupplierClient(APIKEY key, unsigned scid, std::string type, std::string
     Json::Value json_supclient = newsupclient->SupplierClientforInsert(key);
     Json::FastWriter fastWriter;
     std::string output = fastWriter.write(json_supclient);
-    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
+    PostResult("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate", key, output);
 
     json_supclient = newsupclient->SupplierClientforUpdate(key,"");
     Json::FastWriter fastWriter2;
     output = fastWriter2.write(json_supclient);
-    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
-
-
+    PostResult("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate", key, output);
 }
+
+void PostInventoryLocation(APIKEY key, unsigned id,std::string name, std::string abbr, std::string addr, std::string code) {
+    InventoryLocation* newinvlocation = new InventoryLocation(id, name, abbr,
+        addr, code);
+
+    Json::Value json_invlocation = newinvlocation->InventoryLocationforInsert(key);
+    Json::FastWriter fastWriter;
+    std::string output = fastWriter.write(json_invlocation);
+    PostResult("https://api.megaventory.com/v2017a/InventoryLocation/InventoryLocationUpdate", key, output);
+
+    json_invlocation = newinvlocation->InventoryLocationforUpdate(key);
+    Json::FastWriter fastWriter2;
+    output = fastWriter2.write(json_invlocation);
+    PostResult("https://api.megaventory.com/v2017a/InventoryLocation/InventoryLocationUpdate", key, output);
+}
+
 
 int main()
 {
     curl_global_init(CURL_GLOBAL_DEFAULT);
     APIKEY mykey = "961c2b8ebbc896e2@m139547";
-
-    std::string result;
-    result = GetResultAsString("https://api.megaventory.com/v2017a/Product/ProductGet",mykey);
-    Json::Value completeJsonData;
-    completeJsonData = GetResultAsJSON(result);
-
 
     PostProduct(mykey,26,"1112256", "Nike Shoes", 99.99, 49.99);
     PostProduct(mykey,26,"1112248 ", "Adidas shoes", 99.99, 49.99);
@@ -151,6 +160,8 @@ int main()
     PostSupplierClient(mykey, 100, "Client", "babis", contacts, "", "Example 8, Athens", "", "1235698967", "");
     std::vector<MVContact> contacts2 = { MVContact("odysseus","","odysseus@exampletest.com","true") };;
     PostSupplierClient(mykey, 101, "Supplier", "odysseus", contacts2, "", "Example 10, Athens ", "", "1235698988", "");
+
+    PostInventoryLocation(mykey, 100, "Test Project Location", "Test", "Example 20, Athens", "");
     
 }
 

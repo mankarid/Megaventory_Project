@@ -1,4 +1,5 @@
 #include <string>
+#include <json/json.h>
 #include <vector>
 
 class MVContact {

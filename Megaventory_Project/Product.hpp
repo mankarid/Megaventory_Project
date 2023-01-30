@@ -1,4 +1,5 @@
 #include <string>
+#include <json/json.h>
 
 class Product {
     unsigned ProductID;
