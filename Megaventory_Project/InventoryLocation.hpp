@@ -8,7 +8,7 @@ class InventoryLocation {
     std::string InventoryLocationAddress;
     std::string InventoryLocationCurrencyCode;
 public:
-	Json::Value SupplierClientforInsert(std::string key) {
+	Json::Value InventoryLocationforInsert(std::string key) {
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;
 		newProduct["mvInventoryLocation"]["InventoryLocationName"] = InventoryLocationName;
@@ -18,7 +18,7 @@ public:
 		return newProduct;
 	}
 
-	Json::Value SupplierClientforUpdate(std::string key) {
+	Json::Value InventoryLocationforUpdate(std::string key) {
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;
 		newProduct["mvInventoryLocation"]["InventoryLocationID"] = InventoryLocationID;
