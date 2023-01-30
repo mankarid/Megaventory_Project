@@ -65,7 +65,8 @@ public:
         newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
         newProduct["mvProduct"]["ProductType"] = ProductType;
         newProduct["mvProduct"]["ProductDescription"] = ProductDescription;
-        newProduct["mvRecordAction"] = "Insert";
+
+        newProduct["mvRecordAction"] = "Update";
         return newProduct;
     };
     Product(unsigned pid,std::string psku,std::string ptype, double pselpr, double ppurpr)
