@@ -63,7 +63,7 @@ public:
 		return newProduct;
 	};
 
-	Json::Value SupplierClientforInsert(APIKEY key,std::string baddr) {
+	Json::Value SupplierClientforUpdate(APIKEY key,std::string baddr) {
 		SupplierClientBillingAddress = baddr;
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;
