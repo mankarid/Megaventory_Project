@@ -83,4 +83,7 @@ public:
 		: SupplierClientID(scid), SupplierClientType(type), SupplierClientName(name), mvContacts(contacts),
 		SupplierClientBillingAddress(baddr), SupplierClientShippingAddress1(saddr1),
 		SupplierClientShippingAddress2(saddr2), SupplierClientPhone1(phone), SupplierClientIM(im){}
+	~SupplierClient() {
+		mvContacts.clear();
+	}
 };
