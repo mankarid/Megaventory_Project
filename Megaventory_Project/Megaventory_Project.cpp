@@ -27,6 +27,7 @@
 
 //Additional
 #include "Product.hpp"
+#include "SupplierClient.hpp"
 
 typedef std::string APIKEY;
 
@@ -84,7 +85,7 @@ std::string GetResultAsString(std::string URL,APIKEY apikey) {
     return result;
 }
 
-void PostResult(std::string URL, APIKEY apikey, Json::Value value) {
+void PostResult(std::string URL, APIKEY apikey,std::string value) {
     std::string CompleteURL = URL + "?APIKEY=" + apikey;
     CURL* curl;
     CURLcode res;
@@ -106,12 +107,30 @@ void PostProduct(APIKEY key,unsigned pid, std::string sku, std::string type, dou
     Json::Value json_product = newproduct->ProductforInsert(key);
     Json::FastWriter fastWriter;
     std::string output = fastWriter.write(json_product);
-    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, json_product);
+    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
 
     json_product = newproduct->ProductforUpdate(key);
+    Json::FastWriter fastWriter2;
+    output = fastWriter2.write(json_product);
+    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
+}
+
+void PostSupplierClient(APIKEY key, unsigned scid, std::string type, std::string name, std::vector<MVContact> contacts,
+    std::string baddr, std::string saddr1, std::string saddr2, std::string phone, std::string im) {
+    SupplierClient* newsupclient = new SupplierClient(scid, type, name, contacts,
+        baddr,saddr1,saddr2,phone,im);
+
+    Json::Value json_supclient = newsupclient->SupplierClientforInsert(key);
     Json::FastWriter fastWriter;
-    std::string output = fastWriter.write(json_product);
-    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, json_product);
+    std::string output = fastWriter.write(json_supclient);
+    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
+
+    json_supclient = newsupclient->SupplierClientforUpdate(key,"");
+    Json::FastWriter fastWriter2;
+    output = fastWriter2.write(json_supclient);
+    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
+
+
 }
 
 int main()
@@ -127,6 +146,11 @@ int main()
 
     PostProduct(mykey,26,"1112256", "Nike Shoes", 99.99, 49.99);
     PostProduct(mykey,26,"1112248 ", "Adidas shoes", 99.99, 49.99);
+
+    std::vector<MVContact> contacts = { MVContact("babis","","babis@exampletest.com","true") };
+    PostSupplierClient(mykey, 100, "Client", "babis", contacts, "", "Example 8, Athens", "", "1235698967", "");
+    std::vector<MVContact> contacts2 = { MVContact("odysseus","","odysseus@exampletest.com","true") };;
+    PostSupplierClient(mykey, 101, "Supplier", "odysseus", contacts2, "", "Example 10, Athens ", "", "1235698988", "");
     
 }
 

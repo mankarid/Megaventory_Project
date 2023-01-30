@@ -6,8 +6,8 @@ public:
 	std::string ContactName;
 	std::string ContactDepartment;
 	std::string ContactEmail = "";
-	std::string ContantIsPrimary = false;
-	MVContact(std::string name, std::string dept, std::string email, std::string, std::string isprim)
+	std::string ContantIsPrimary = "false";
+	MVContact(std::string name, std::string dept, std::string email,std::string isprim)
 		: ContactName(name), ContactDepartment(dept), ContactEmail(email), ContantIsPrimary(isprim) {}
 };
 
@@ -40,7 +40,7 @@ class SupplierClient {
 	std::string SupplierClientCreationDate="/Date(1499856477997-0000)/";
 
 public:
-	Json::Value SupplierClientforInsert(APIKEY key) {
+	Json::Value SupplierClientforInsert(std::string key) {
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;
 		newProduct["mvSupplierClient"]["SupplierClientID"] = SupplierClientID;
@@ -63,7 +63,7 @@ public:
 		return newProduct;
 	};
 
-	Json::Value SupplierClientforUpdate(APIKEY key,std::string baddr) {
+	Json::Value SupplierClientforUpdate(std::string key,std::string baddr) {
 		SupplierClientBillingAddress = baddr;
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;

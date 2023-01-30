@@ -45,7 +45,7 @@ class Product {
     bool IsPurchasable=true;
     bool IsSellable=true;
 public:
-    Json::Value ProductforInsert(APIKEY key) {
+    Json::Value ProductforInsert(std::string key) {
         Json::Value newProduct;
         newProduct["APIKEY"] = key;
         newProduct["mvProduct"]["ProductID"] = ProductID;
@@ -58,7 +58,7 @@ public:
         newProduct["mvRecordAction"] = "Insert";
         return newProduct;
     };
-    Json::Value ProductforUpdate(APIKEY key) {
+    Json::Value ProductforUpdate(std::string key) {
         Json::Value newProduct;
         newProduct["APIKEY"] = key;
         newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
