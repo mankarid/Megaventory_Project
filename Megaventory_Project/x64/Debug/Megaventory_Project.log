@@ -1,0 +1,15 @@
+﻿  Megaventory_Project.cpp
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Product.hpp(48,34): error C2061: syntax error: identifier 'APIKEY'
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Product.hpp(61,34): error C2061: syntax error: identifier 'APIKEY'
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Product.hpp(50,32): error C2065: 'key': undeclared identifier
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Product.hpp(63,32): error C2065: 'key': undeclared identifier
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(42,44): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(43,54): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(106,64): error C2660: 'Product::ProductforInsert': function does not take 1 arguments
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Product.hpp(48,17): message : see declaration of 'Product::ProductforInsert'
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(111,52): error C2660: 'Product::ProductforUpdate': function does not take 1 arguments
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Product.hpp(61,17): message : see declaration of 'Product::ProductforUpdate'
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(112,22): error C2086: 'Json::FastWriter fastWriter': redefinition
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(107): message : see declaration of 'fastWriter'
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(113,17): error C2374: 'output': redefinition; multiple initialization
+C:\Users\MANOS\Desktop\Megaventory_Project\Megaventory_Project\Megaventory_Project.cpp(108): message : see declaration of 'output'

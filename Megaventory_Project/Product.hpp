@@ -45,9 +45,23 @@ class Product {
     bool IsPurchasable=true;
     bool IsSellable=true;
 public:
-    Json::Value ProductToJSON(APIKEY key) {
+    Json::Value ProductforInsert(APIKEY key) {
         Json::Value newProduct;
         newProduct["APIKEY"] = key;
+        newProduct["mvProduct"]["ProductID"] = ProductID;
+        newProduct["mvProduct"]["ProductType"] = ProductType;
+        newProduct["mvProduct"]["ProductDescription"] = ProductDescription;
+        newProduct["mvProduct"]["ProductSellingPrice"] = ProductSellingPrice;
+        newProduct["mvProduct"]["ProductPurchasePrice"] = ProductPurchasePrice;
+        newProduct["mvProduct"]["mvProductMainSupplier"]["SupplierClientName"] = "A4 Paper Supplier";
+
+        newProduct["mvRecordAction"] = "Insert";
+        return newProduct;
+    };
+    Json::Value ProductforUpdate(APIKEY key) {
+        Json::Value newProduct;
+        newProduct["APIKEY"] = key;
+        newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
         newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
         newProduct["mvProduct"]["ProductType"] = ProductType;
         newProduct["mvProduct"]["ProductDescription"] = ProductDescription;
