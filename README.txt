@@ -15,9 +15,10 @@ Some external libraries are used:
 Classes for Products, SupplierClients and InventoryLocations are provided. They
 contain the appropriate functions to convert their data into a JSON value, which
 is required for the insertion of new data.
+The program also supports the creation of relationships between a client or a
+supplier and a product, as well as the increase of a product's stock in a 
+warehouse.
 Furthermore utility functions are provided which send requests by combining
 curl and JsonCpp.
 
-The project though is not functional. The Insertions are not done correctly.
-Also steps 3-5 are not implemented at all.
-
+The program will not work without the proper setup of curl and JsonCPP.
