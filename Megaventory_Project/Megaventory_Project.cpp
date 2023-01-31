@@ -63,27 +63,6 @@ Json::Value GetResultAsJSON(std::string json_string) {
     return completeJsonData;
 }
 
-/*
-std::string GetResultAsString(std::string URL,APIKEY apikey) {
-    std::string CompleteURL = URL + "?APIKEY=" + apikey;
-    std::string result;
-    CURL* curl;
-    CURLcode res;
-    curl = curl_easy_init();
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, CompleteURL.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, my_write);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
-        res = curl_easy_perform(curl);
-        if (CURLE_OK != res) {
-            std::cerr << "CURL error: " << res << '\n';
-        }
-        curl_easy_cleanup(curl);
-    }
-    return result;
-}
-*/
-
 std::string PostResult(std::string URL, APIKEY apikey,std::string value) {
     std::string CompleteURL = URL + "?APIKEY=" + apikey;
     CURL* curl;
@@ -163,8 +142,8 @@ Product* PostProductInsertUpdate(APIKEY key, std::string sku, std::string type, 
     json_product = newproduct->ProductforUpdate(key);
     Json::FastWriter fastWriter2;
     output = fastWriter2.write(json_product);
-    PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
-
+    output=PostResult("https://api.megaventory.com/v2017a/Product/ProductUpdate", key, output);
+    std::cout << "\n\n" << output << "\n\n";
     return newproduct;
 }
 
@@ -176,7 +155,7 @@ SupplierClient* PostSupplierClientInsertUpdate(APIKEY key, unsigned scid, std::s
     Json::Value json_supclient = newsupclient->SupplierClientforInsert(key);
     Json::FastWriter fastWriter;
     std::string output = fastWriter.write(json_supclient);
-    output=PostResult("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate", key, output);
+    PostResult("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate", key, output);
 
     json_supclient = GetSupplierClientAsJSON(key, "SupplierClientType", "Equals", type, "And", "SupplierClientName", "Equals", name);
     newsupclient->SetID(json_supclient["mvSupplierClients"][0]["SupplierClientID"].asUInt());
@@ -185,6 +164,7 @@ SupplierClient* PostSupplierClientInsertUpdate(APIKEY key, unsigned scid, std::s
     Json::FastWriter fastWriter2;
     output = fastWriter2.write(json_supclient);
     output=PostResult("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate", key, output);
+    std::cout << "\n\n" << output << "\n\n";
     return newsupclient;
 }
 
@@ -204,6 +184,7 @@ InventoryLocation* PostInventoryLocationInsertUpdate(APIKEY key, unsigned id,std
     Json::FastWriter fastWriter2;
     output = fastWriter2.write(json_invlocation);
     output=PostResult("https://api.megaventory.com/v2017a/InventoryLocation/InventoryLocationUpdate", key, output);
+    std::cout << "\n\n" << output << "\n\n";
 
     return newinvlocation;
 }
@@ -242,21 +223,16 @@ Json::Value PostProductSupplierRelationship(APIKEY key, unsigned pid, unsigned c
     return GetResultAsJSON(output);
 }
 
-Json::Value UpdateAvailabilityInInventoryLocation(APIKEY key, std::string pid, std::string psku,
-    std::string invlocid, std::string stockal, std::string subloc, std::string action) {
+Json::Value UpdateAvailabilityInInventoryLocation(APIKEY key, std::string psku,
+    unsigned invlocid) {
     Json::Value json_stock;
     json_stock["APIKEY"] = key;
-    json_stock["mvProductStockAlertsAndSublocationsList"][0]["ProductID"] = pid;
-    json_stock["mvProductStockAlertsAndSublocationsList"][0]["ProductSKU"] = psku;
-    json_stock["mvProductStockAlertsAndSublocationsList"][0]["mvInventoryLocationStockAlertAndSublocations"][0]["InventoryLocationID"] = invlocid;
-    json_stock["mvProductStockAlertsAndSublocationsList"][0]["mvInventoryLocationStockAlertAndSublocations"][0]["StockAlertLevel"] = stockal;
-    json_stock["mvProductStockAlertsAndSublocationsList"][0]["mvInventoryLocationStockAlertAndSublocations"][0]["SubLocation"] = subloc;
-    json_stock["mvInsertUpdateDeleteSourceApplication"] = "Megaventory_project";
-    json_stock["mvRecordAction"] = action;
-    std::cout << json_stock << "\n";
+    json_stock["mvProductStockUpdateList"][0]["ProductSKU"] = psku;
+    json_stock["mvProductStockUpdateList"][0]["ProductQuantity"] = 5;
+    json_stock["mvProductStockUpdateList"][0]["InventoryLocationID"] = invlocid;
     Json::FastWriter fastWriter;
     std::string output = fastWriter.write(json_stock);
-    output = PostResult("https://api.megaventory.com/v2017a/ProductCategory/ProductCategoryUpdate", key, output);
+    output = PostResult("https://api.megaventory.com/v2017a/InventoryLocationStock/ProductStockUpdate", key, output);
     return GetResultAsJSON(output);
 }
 
@@ -297,6 +273,7 @@ int main()
     //Form Relationship
     Json::Value relationship1 = PostProductClientRelationship(mykey, nikeshoes["ProductID"].asUInt(), 
         babis["SupplierClientID"].asUInt(), 99.99, "Insert");
+    std::cout << "\n\n" << relationship1 << "\n\n";
 
 
     //GetSupplier
@@ -309,14 +286,16 @@ int main()
     //Form Relationship
     Json::Value relationship2 = PostProductSupplierRelationship(mykey, nikeshoes["ProductID"].asUInt(),
         odysseus["SupplierClientID"].asUInt(), false, "Test Test", "0", "Test", "Insert");
+    std::cout << "\n\n" << relationship2 << "\n\n";
 
 
     //GetLocation
-    Json::Value invloc = GetInventoryLocationAsJSON(mykey, "InventoryLocationID", "Equals", "Test Project Location",
-        1)["mvInventoryLocations"][0];
+    Json::Value invloc = GetInventoryLocationAsJSON(mykey, "InventoryLocationName", "Equals", "Test Project Location",
+        2)["mvInventoryLocations"][0];
 
     //Update 
-    Json::Value stockupdate = UpdateAvailabilityInInventoryLocation(mykey,nikeshoes["ProductID"].asString(),
-        nikeshoes["ProductSKU"].asString(),invloc["InventoryLocationID"].asString(),"5","","Update");
-    std::cout << stockupdate << "\n";
+    Json::Value stockupdate = UpdateAvailabilityInInventoryLocation(mykey,
+        nikeshoes["ProductSKU"].asString(),invloc["InventoryLocationID"].asUInt());
+    std::cout << "\n\n" << stockupdate << "\n\n";
+
 }
