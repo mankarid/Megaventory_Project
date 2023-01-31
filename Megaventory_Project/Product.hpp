@@ -46,32 +46,35 @@ class Product {
     bool IsPurchasable=true;
     bool IsSellable=true;
 public:
+    void SetID(unsigned id) {
+        ProductID = id;
+    }
     Json::Value ProductforInsert(std::string key) {
         Json::Value newProduct;
         newProduct["APIKEY"] = key;
-        newProduct["mvProduct"]["ProductID"] = ProductID;
+        newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
         newProduct["mvProduct"]["ProductType"] = ProductType;
         newProduct["mvProduct"]["ProductDescription"] = ProductDescription;
-        newProduct["mvProduct"]["ProductSellingPrice"] = ProductSellingPrice;
-        newProduct["mvProduct"]["ProductPurchasePrice"] = ProductPurchasePrice;
-        newProduct["mvProduct"]["mvProductMainSupplier"]["SupplierClientName"] = "A4 Paper Supplier";
 
         newProduct["mvRecordAction"] = "Insert";
+        newProduct["mvInsertUpdateDeleteSourceApplication"] = "Megaventory_project";
         return newProduct;
     };
     Json::Value ProductforUpdate(std::string key) {
         Json::Value newProduct;
         newProduct["APIKEY"] = key;
+        newProduct["mvProduct"]["ProductID"] = ProductID;
         newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
-        newProduct["mvProduct"]["ProductSKU"] = ProductSKU;
-        newProduct["mvProduct"]["ProductType"] = ProductType;
         newProduct["mvProduct"]["ProductDescription"] = ProductDescription;
+        newProduct["mvProduct"]["ProductSellingPrice"] = ProductSellingPrice;
+        newProduct["mvProduct"]["ProductPurchasePrice"] = ProductPurchasePrice;
+        newProduct["mvProduct"]["mvProductMainSupplier"]["SupplierClientName"] = "Dummy Supplier B";
 
         newProduct["mvRecordAction"] = "Update";
         return newProduct;
     };
-    Product(unsigned pid,std::string psku,std::string ptype, double pselpr, double ppurpr)
-    :ProductID(pid), ProductSKU(psku), ProductType(ptype), ProductSellingPrice(pselpr), ProductPurchasePrice(ppurpr) {
+    Product(std::string psku,std::string ptype, std::string desc,double pselpr, double ppurpr)
+    : ProductSKU(psku), ProductType(ptype), ProductDescription(desc), ProductSellingPrice(pselpr), ProductPurchasePrice(ppurpr) {
     }
     ~Product() {}
 

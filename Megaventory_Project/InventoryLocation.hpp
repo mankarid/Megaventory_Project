@@ -8,6 +8,9 @@ class InventoryLocation {
     std::string InventoryLocationAddress;
     std::string InventoryLocationCurrencyCode;
 public:
+	void SetID(unsigned id) {
+		InventoryLocationID = id;
+	}
 	Json::Value InventoryLocationforInsert(std::string key) {
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;
@@ -27,7 +30,7 @@ public:
 		newProduct["mvInventoryLocation"]["SupplierClientBillingAddress"] = InventoryLocationAddress;
 		newProduct["mvInventoryLocation"]["SupplierClientShippingAddress1"] = InventoryLocationCurrencyCode;
 
-		newProduct["mvRecordAction"] = "Insert";
+		newProduct["mvRecordAction"] = "Update";
 		newProduct["mvInsertUpdateDeleteSourceApplication"] = "Megaventory_project";
 		return newProduct;
 	}

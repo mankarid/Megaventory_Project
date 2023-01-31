@@ -41,6 +41,9 @@ class SupplierClient {
 	std::string SupplierClientCreationDate="/Date(1499856477997-0000)/";
 
 public:
+	void SetID(unsigned id) {
+		SupplierClientID = id;
+	}
 	Json::Value SupplierClientforInsert(std::string key) {
 		Json::Value newProduct;
 		newProduct["APIKEY"] = key;
